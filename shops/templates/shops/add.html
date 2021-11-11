@@ -1,0 +1,15 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+{% if sent %}
+<h2>Your product has been added.</h2>
+{% else %}
+<h2>Add a new product</h2>
+<form method="post" enctype="multipart/form-data">
+  {{ productForm.as_p }}
+  {% csrf_token %}
+  <p><input type="submit" value="Add product"></p>
+</form>
+{% endif %}
+{% endblock %}

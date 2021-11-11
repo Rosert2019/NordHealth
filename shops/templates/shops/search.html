@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>All available finnish dishes</h1>
+<p>Fill in the form to search by name and by code </p>
+<p>You can also search by one criteria (code or name) </p>
+<p>Click on the photo or see the detail price  or to add to the chart</p>
+
+<form method="post">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <input type="submit" value="Search">
+  </form>
+<br>
+{% if products.object_list.count == 0 %}
+    <div class="text-center">
+      Not lucky, no thing for you! Check your code or name please!
+    </div>
+
+{% else %}
+
+<div class="container">
+    <div class="row">
+        {% for product in products %}
+            <div class="col-auto">
+                <div class="card border-primary mb-3">
+                    <a href="{{product.get_absolute_url}}">
+                        <img style="height: 150px; width: 100%; display: block;" src="{{product.image}}" alt="Card image">
+                    </a>
+                    <div class="card-header">
+                        <a href="{{product.get_absolute_url}}">{{product.name}}</a>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title"><a href="{{product.get_absolute_url}}">€ {{product.price}}</a></h4>
+                        <p class="card-text">{{ product.content|slice:":125" }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock %}
